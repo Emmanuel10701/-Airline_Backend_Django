@@ -37,8 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     "myapp",
-    "corheaders",
-    "rest_framework",
+    'corsheaders',  # Correct spelling
     'django.contrib.messages',
     'django.contrib.staticfiles',
 ]
@@ -46,7 +45,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-        'corsheaders.middleware.CorsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
    'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -61,20 +60,8 @@ CORS_ALLOWED_ALL_ORIGIN = True
 CORS_ALLOWES_ORIGIN = [
     "localhost:3000",
 ]
-CORS_ALLOW_METHODS = [
-    "GET",
-    "POST",
-    "PUT",
-    "PATCH",
-    "DELETE",
-    "OPTIONS",
-]
 
-CORS_ALLOW_HEADERS = [
-    "content-type",
-    "authorization",
-    "x-csrf-token",
-]
+
 
 CORS_ALLOW_CREDENTIALS = True
 
