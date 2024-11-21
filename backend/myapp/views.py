@@ -6,6 +6,15 @@ from .models import post
 from .serializers import PostSerializers
 from django.shortcuts import  get_object_or_404
 
+class ContactAPIView(APIView):
+    def post(self, request, *args, **kwargs):
+        serializer = ContactSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()  # Save the contact message to the database
+            # You can optionally send an email here using the contact details.
+            return Response({"message": "Contact message submitted successfully."}, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 class Postview(viewsets.ModelViewSet):
     queryset = post.objects.all()
