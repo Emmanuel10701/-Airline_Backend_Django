@@ -1,6 +1,6 @@
 from rest_framework import serializers
-from models import Post  
-from models import Contact
+from .models import Post  
+from .models import Contact
 
 class ContactSerilizer(serializers.ModelSerializer):
     class Meta:

@@ -33,7 +33,7 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     "myapp",
-    'corsheaders', 
+    'corsheaders',
     'django.contrib.messages',
     'django.contrib.staticfiles',
 ]

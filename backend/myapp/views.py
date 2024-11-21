@@ -2,14 +2,14 @@ from rest_framework import response, permissions, status, viewsets
 from rest_framework.views import APIView  # Correct import for APIView
 from rest_framework.response import Response  # Correct import for Response
 from django.shortcuts import get_object_or_404
-from .models import Post, Contact
-from .serializers import PostSerializer, ContactSerializer
+from .models import Post
+from .serializers import PostSerializer, ContactSerilizer
 
 
 # Contact View
 class ContactAPIView(APIView):
     def post(self, request, *args, **kwargs):
-        serializer = ContactSerializer(data=request.data)
+        serializer = ContactSerilizer(data=request.data)
         if serializer.is_valid():
             serializer.save()  # Save the contact message to the database
             # You can optionally send an email here using the contact details.
