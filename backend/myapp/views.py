@@ -1,11 +1,12 @@
-from rest_framework import responce
-from rest_framework import permissions
-from rest_framework import viewsets
-from rest_framework import status
-from .models import post
-from .serializers import PostSerializers
-from django.shortcuts import  get_object_or_404
+from rest_framework import response, permissions, status, viewsets
+from rest_framework.views import APIView  # Correct import for APIView
+from rest_framework.response import Response  # Correct import for Response
+from django.shortcuts import get_object_or_404
+from .models import Post, Contact
+from .serializers import PostSerializer, ContactSerializer
 
+
+# Contact View
 class ContactAPIView(APIView):
     def post(self, request, *args, **kwargs):
         serializer = ContactSerializer(data=request.data)
@@ -16,34 +17,34 @@ class ContactAPIView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+# Post View using ViewSets
 class Postview(viewsets.ModelViewSet):
-    queryset = post.objects.all()
-    serializer_class = PostSerializers
+    queryset = Post.objects.all()
+    serializer_class = PostSerializer
     permission_classes = [permissions.AllowAny]
 
+    def create(self, request, *args, **kwargs):
+        serializer = self.serializer_class(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    def create(self,args,kwargs):
-        serializer = self.serializer_class(data=args.data)
-        if serializer.is_valid():
-            serializer.save()
-            return responce.Response(serializer.data, status=status.HTTP_201_CREATED)
-        
-        return responce.Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     def retrieve(self, request, pk=None):
-        post = get_object_or_404(post, pk=pk)
-        serializer = PostSerializers(post)
-        return responce.Response(serializer.data)
-    
+        post = get_object_or_404(Post, pk=pk)  # Corrected reference to 'Post' model
+        serializer = PostSerializer(post)
+        return Response(serializer.data)
+
     def update(self, request, pk=None):
-        post = get_object_or_404(post, pk=pk)
-        serializer = PostSerializers(post, data=request.data)
+        post = get_object_or_404(Post, pk=pk)  # Corrected reference to 'Post' model
+        serializer = PostSerializer(post, data=request.data)
         if serializer.is_valid():
             serializer.save()
-            return responce.Response(serializer.data)
-        return responce.Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
     def destroy(self, request, pk=None):
-        post = get_object_or_404(post, pk=pk)
+        post = get_object_or_404(Post, pk=pk)  # Corrected reference to 'Post' model
         post.delete()
-        return responce.Response(status=status.HTTP_204_NO_CONTENT)
-    
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
