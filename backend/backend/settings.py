@@ -133,10 +133,11 @@ MEDIA_URL = '/media/'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')  # Directory where media files are stored
 STATIC_URL = 'static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  # Directory for collected static files
+STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
+
 
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static'),  # Additional static files directories
+    os.path.join(BASE_DIR, "backend", "static"),
 ]
 
 
