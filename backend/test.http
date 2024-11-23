@@ -1,11 +1,9 @@
 
-POST http://127.0.0.1:8000/contact/
+POST http://127.0.0.1:8000/post/
 Content-Type: application/json
 
 {
-    "name": "John Doe",
-    "email": "johndoe@example.com",
-    "subject": "Website Inquiry",
-    "message": "I would like to learn more about your services."
+    "title": "John Doe",
+    "author":"I would like to learn more about your services."
 }
 
