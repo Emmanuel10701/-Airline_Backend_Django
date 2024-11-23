@@ -1,11 +1,20 @@
 from django.urls import path
-from .views import Postview, ContactAPIView
+from .views import (
+    ContactAPIView,
+    CreatePostAPIView,
+    RetrievePostAPIView,
+    UpdatePostAPIView,
+    DeletePostAPIView,
+)
 
 urlpatterns = [
-    path('post/', Postview.as_view({'get': 'list', 'post': 'create'}), name='post_list_create'),
-    path('post/<int:pk>/', Postview.as_view({'get': 'retrieve', 'put': 'update', 'delete': 'destroy'}), name='post_detail'),
-    path("contact/", ContactAPIView.as_view(), name='contact'),
+    path('contact/', ContactAPIView.as_view(), name='contact'),
+    path('posts/create/', CreatePostAPIView.as_view(), name='create_post'),
+    path('posts/<int:pk>/', RetrievePostAPIView.as_view(), name='retrieve_post'),
+    path('posts/<int:pk>/update/', UpdatePostAPIView.as_view(), name='update_post'),
+    path('posts/<int:pk>/delete/', DeletePostAPIView.as_view(), name='delete_post'),
 ]
+
 
 # Static and media URL configuration for development purposes
 from django.conf import settings
