@@ -13,8 +13,7 @@ class ContactAPIView(APIView):
     def post(self, request, *args, **kwargs):
         serializer = ContactSerilizer(data=request.data)
         if serializer.is_valid():
-            serializer.save()  # Save the contact message to the database
-            # Optionally handle further logic like sending an email.
+            serializer.save()  
             return Response({"message": "Contact message submitted successfully."}, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
