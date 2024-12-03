@@ -7,6 +7,15 @@ from .serializers import PostSerializer, ContactSerilizer
 from django.contrib.auth import authenticate, login, logout
 from django.http import JsonResponse
 from rest_framework.decorators import api_view
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.views import APIView
+
+class ProtectedView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        return JsonResponse({'message': 'You have access!'})
+
 
 @api_view(['POST'])
 def login_view(request):
