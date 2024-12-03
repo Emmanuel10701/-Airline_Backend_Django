@@ -6,9 +6,12 @@ from .views import (
     UpdatePostAPIView,
     DeletePostAPIView,
 )
+from .view import home
+
 
 urlpatterns = [
     path('contact/', ContactAPIView.as_view(), name='contact'),
+    path('home/', name='home'),
     path('posts/create/', CreatePostAPIView.as_view(), name='create_post'),
     path('posts/<int:pk>/', RetrievePostAPIView.as_view(), name='retrieve_post'),
     path('posts/<int:pk>/update/', UpdatePostAPIView.as_view(), name='update_post'),
