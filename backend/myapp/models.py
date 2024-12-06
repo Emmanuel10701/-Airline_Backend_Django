@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth import User
 
 class Post(models.Model):
     title = models.CharField(max_length=225)
@@ -17,3 +18,12 @@ class Contact(models.Model):
 
     def __str__(self):
         return f"Message from {self.name} - {self.subject}"
+class Profile(models.Model):
+    User = models.ForeignKey(ondelete = models.CASCADE)
+    age = models.Intergerfile(Default = 0)
+    isVerified = models.BooleanField(default=False)
+    date_created = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.User.username
+    
