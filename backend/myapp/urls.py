@@ -7,10 +7,9 @@ from .views import (
     DeletePostAPIView,
     ProfileApi
 )
+
 from .view import home
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
-
-
 
 urlpatterns = [
     path('contact/', ContactAPIView.as_view(), name='contact'),
