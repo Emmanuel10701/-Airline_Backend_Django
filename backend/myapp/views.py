@@ -2,13 +2,14 @@ from rest_framework import permissions, status
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
-from .models import Post
-from .serializers import PostSerializer, ContactSerilizer
+from .models import Post,Contact, Profile
+from .serializers import PostSerializer, ContactSerilizer,ProfileSerializer
 from django.contrib.auth import authenticate, login, logout
 from django.http import JsonResponse
 from rest_framework.decorators import api_view
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
+
 
 class ProtectedView(APIView):
     permission_classes = [IsAuthenticated]
@@ -34,6 +35,17 @@ def logout_view(request):
 
 
 # Contact View
+class ProfileApi(APIView):
+    permission_classes = [permissions.AllowAny]
+
+    def post(self, request, *args, **kwargs):
+        serializer = ProfileSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()  
+           return Response({"message": "Profile created   sucessifully."}, status=status.HTTP_201_CREATED)
+
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 class ContactAPIView(APIView):
     permission_classes = [permissions.AllowAny]
 
@@ -41,7 +53,7 @@ class ContactAPIView(APIView):
         serializer = ContactSerilizer(data=request.data)
         if serializer.is_valid():
             serializer.save()  
-            return Response({"message": "Contact message submitted successfully."}, status=status.HTTP_201_CREATED)
+         return Response({"message": "Contact message submitted successfully."}, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
