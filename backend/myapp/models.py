@@ -18,8 +18,10 @@ class Contact(models.Model):
 
     def __str__(self):
         return f"Message from {self.name} - {self.subject}"
+
 class Profile(models.Model):
     User = models.ForeignKey(ondelete = models.CASCADE)
+    image = models.ImageField(upload_to="/images/profile")
     age = models.Intergerfile(Default = 0)
     isVerified = models.BooleanField(default=False)
     date_created = models.DateTimeField(auto_now_add=True)
