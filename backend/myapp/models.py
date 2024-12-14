@@ -1,15 +1,13 @@
-# myapp/models.py
 from django.db import models
 from django.contrib.auth.models import AbstractUser, BaseUserManager
 
-# Custom User Manager
 class CustomUserManager(BaseUserManager):
     def create_user(self, email, password=None, **extra_fields):
         if not email:
             raise ValueError("The Email field must be set")
         email = self.normalize_email(email)
         user = self.model(email=email, **extra_fields)
-        user.set_password(password)  # Hash the password
+        user.set_password(password)
         user.save(using=self._db)
         return user
 
@@ -25,26 +23,24 @@ class CustomUserManager(BaseUserManager):
         return self.create_user(email, password, **extra_fields)
 
 
-# Custom User Model
 class CustomUser(AbstractUser):
-    username = None  # Remove the username field
-    email = models.EmailField(unique=True)  # Use email as the unique identifier
+    username = None
+    email = models.EmailField(unique=True)
     is_verified = models.BooleanField(default=False)
 
-    # Add related_name to avoid clashes
     groups = models.ManyToManyField(
         'auth.Group',
-        related_name='customuser_set',  # Custom related name
+        related_name='customuser_set',
         blank=True,
     )
     user_permissions = models.ManyToManyField(
         'auth.Permission',
-        related_name='customuser_set',  # Custom related name
+        related_name='customuser_set',
         blank=True,
     )
 
-    USERNAME_FIELD = "email"  # Set email as the unique identifier
-    REQUIRED_FIELDS = []  # Remove username from required fields
+    USERNAME_FIELD = "email"
+    REQUIRED_FIELDS = []
 
     objects = CustomUserManager()
 
@@ -52,15 +48,15 @@ class CustomUser(AbstractUser):
         return self.email
 
 
-# Other Models
 class Post(models.Model):
     title = models.CharField(max_length=225)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    author = models.ForeignKey(CustomUser, on_delete=models.CASCADE)  # Link to CustomUser
+    author = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.title
+
 
 class Contact(models.Model):
     name = models.CharField(max_length=100)
@@ -72,8 +68,9 @@ class Contact(models.Model):
     def __str__(self):
         return f"Message from {self.name} - {self.subject}"
 
+
 class Profile(models.Model):
-    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE)  # Link to CustomUser
+    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
     image = models.ImageField(upload_to="images/profile")
     age = models.IntegerField(default=0)
     is_verified = models.BooleanField(default=False)
